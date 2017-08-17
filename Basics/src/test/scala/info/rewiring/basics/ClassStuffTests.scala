@@ -36,6 +36,14 @@ class ClassStuffTests extends FunSpec{
         assert(emp4.lastName == "Doe")
         assert(emp4.title == "Miss")
       }
+
+      it("should change only first name (default args") {
+        val emp5 = new Employee("John", "Hartfield")
+        val emp6 = emp5.copy(firstName = "Jane")
+
+        assert(emp6.firstName.equals("Jane"))
+        assert(emp6.lastName.equals("Hartfield"))
+      }
     }
 
 
