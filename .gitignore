@@ -1,2 +1,6 @@
-*.class
-*.log
+.metadata/
+Basics/**/*.class
+Basics/**/*.log
+Basics/target/
+Basics/.idea/
+Basics/project/target/
