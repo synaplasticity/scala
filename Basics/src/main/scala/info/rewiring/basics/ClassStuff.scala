@@ -5,6 +5,11 @@ import scala.beans.BeanProperty
 // NOTE: val needs to be added. Could be var too, but scala programmers do not like that.
 // @BeanProperty create java style get/setters (accessor/mutator). Helpful for interoperability
 class Employee(@BeanProperty val firstName: String, val lastName: String, val title: String) {
+  // require will be executed as part of the default constructor
+  require(!firstName.isEmpty, "First name cannot be empty")
+  require(!lastName.isEmpty, "Last name cannot be empty")
+
+
   // ancillary constructors :
   // In scala the primary constructor is wide as we want to reduce object copy in
   // an immutable language

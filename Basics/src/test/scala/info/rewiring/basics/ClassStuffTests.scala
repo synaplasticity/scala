@@ -44,6 +44,22 @@ class ClassStuffTests extends FunSpec{
         assert(emp6.firstName.equals("Jane"))
         assert(emp6.lastName.equals("Hartfield"))
       }
+
+      it("should throw as exception if firstName is empty") {
+        assertThrows[IllegalArgumentException] {
+          val emp7 = new Employee("", "Hartfield", "Mr")
+        }
+      }
+
+      it("should throw as exception if lastName is empty and return a meaningful message") {
+        val caught = intercept[IllegalArgumentException] {
+          new Employee("John", "", "Mr")
+        }
+
+        assert(caught.getMessage.equals("requirement failed: Last name cannot be empty"))
+      }
+
+
     }
 
 
