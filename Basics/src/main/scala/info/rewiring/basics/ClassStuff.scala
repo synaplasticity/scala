@@ -52,6 +52,18 @@ class Employee(@BeanProperty val firstName: String, val lastName: String, val ti
     }
   }
 
+  /**
+    * Usiing Josh Blouch's implementation
+    * @return
+    */
+  override def hashCode(): Int = {
+    var result = 42
+    // use a prime like 31
+    result = 31 * result + this.firstName.hashCode
+    result = 31 * result + this.lastName.hashCode
+    result = 31 * result + this.title.hashCode
+    result
+  }
 
 }
 

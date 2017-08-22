@@ -133,7 +133,31 @@ class ClassStuffTests extends FunSpec{
         assert(emp == man)
       }
 
+      it("should return true for objects with same reference") {
+        val emp1: Employee = new Employee("A", "B", "Mr")
+        var emp2: Employee = new Employee("Y", "Z", "Ms")
+
+        emp2 = emp1
+
+        assert(emp2 eq emp1) // eq is an operator equivalent to == in java for reference matching
+      }
+
+      // HASH CODES
+      it("should return true for identical employee object hashcodes") {
+        val emp1: Employee = new Employee("A", "B", "Mr")
+        val emp2: Employee = new Employee("A", "B", "Mr")
+
+        assert(emp1.hashCode() == emp2.hashCode())
+      }
+
+      it("should return false for non identical employee object hashcodes") {
+        val emp1: Employee = new Employee("A", "B", "Mr")
+        val emp2: Employee = new Employee("A", "Z", "Ms")
+
+        assert(emp1.hashCode() != emp2.hashCode())
+      }
     }
+
 
   }
 }
