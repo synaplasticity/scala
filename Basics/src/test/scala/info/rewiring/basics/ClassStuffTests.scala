@@ -99,6 +99,15 @@ class ClassStuffTests extends FunSpec{
         assert(mangerAsEmp.fullName().equals("Jane Doe, R&D Manager")) // as it points to Manager object
       }
 
+      it("should return the new title and department as Toys for overloaded copy method") {
+        val jane: Manager = new Manager("Jane", "Doe", "Ms", new Department("R&D"))
+
+        val updatedJane: Manager = jane.copy(title = "Mrs")
+        assert(updatedJane.title.equals("Mrs"))
+        assert(updatedJane.department.name.equals("Toys"))
+      }
+
+
     }
 
   }

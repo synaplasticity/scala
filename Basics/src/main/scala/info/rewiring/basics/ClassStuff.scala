@@ -54,5 +54,27 @@ class Manager(firstName: String, lastName: String, title: String, val department
     extends Employee(firstName, lastName, title) {
 
   override def fullName(): String = super.fullName() + s", ${department.name} Manager"
+
+  // NOTE: We do not add the department as that will then *overload* the method
+  // We are oding only override now
+  override def copy(firstName: String = this.firstName,
+           lastName: String = this.lastName,
+           title: String = this.title): Manager = {
+
+    new Manager(firstName, lastName, title, new Department("Toys"))
+  }
+
+  // Overloaded methods
+  // WILL NOT compile as the superclass as *default parameters*
+  // This is a corner case. n all other cases overload should work
+  /*
+  def copy(firstName: String = this.firstName,
+                    lastName: String = this.lastName,
+                    title: String = this.title,
+                    department: Department = this.department): Manager = {
+
+    new Manager(firstName, lastName, title, department)
+  }
+  */
 }
 
