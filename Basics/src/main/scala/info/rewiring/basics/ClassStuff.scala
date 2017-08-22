@@ -6,9 +6,13 @@ import scala.beans.BeanProperty
 // @BeanProperty create java style get/setters (accessor/mutator). Helpful for interoperability
 class Employee(@BeanProperty val firstName: String, val lastName: String, val title: String) {
   // require will be executed as part of the default constructor
-  require(!firstName.isEmpty, "First name cannot be empty")
-  require(!lastName.isEmpty, "Last name cannot be empty")
+  // Don't need to check for null unless this class wil interact with Java classes.
+  require(firstName.nonEmpty, "First name cannot be empty")
+  require(lastName.nonEmpty, "Last name cannot be empty")
 
+  // One could also do an explicit check on args
+  if(title.contains("Senior") || title.contains("Junior"))
+    throw new IllegalArgumentException("Title cannot contain Senior or Junior in it")
 
   // ancillary constructors :
   // In scala the primary constructor is wide as we want to reduce object copy in

@@ -59,6 +59,13 @@ class ClassStuffTests extends FunSpec{
         assert(caught.getMessage.equals("requirement failed: Last name cannot be empty"))
       }
 
+      it("should throw as exception with right message if the title has Senior/Junior") {
+        val ex = intercept[IllegalArgumentException] {
+          new Employee("John", "Hartfield", "Senior")
+        }
+
+        assert(ex.getMessage.equals("Title cannot contain Senior or Junior in it"))
+      }
 
     }
 
