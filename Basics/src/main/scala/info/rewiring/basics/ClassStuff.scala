@@ -48,3 +48,11 @@ class Empl(@BeanProperty firstName: String, val lastName: String, val title: Str
 
 }
 
+class Department(val name: String)
+
+class Manager(firstName: String, lastName: String, title: String, val department: Department)
+    extends Employee(firstName, lastName, title) {
+
+  override def fullName(): String = super.fullName() + s", ${department.name} Manager"
+}
+

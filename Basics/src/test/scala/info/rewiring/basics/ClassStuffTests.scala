@@ -69,7 +69,37 @@ class ClassStuffTests extends FunSpec{
 
     }
 
+    describe("Subclassing tests" ) {
+      it("should return type of Manager for manager") {
+        val m: Manager = new Manager("Jane", "Doe", "Ms", new Department("R&D"))
+        assert(m.isInstanceOf[Manager])
+      }
 
+      it("should return type Manager for undeclared type due to type inference") {
+        val m2 = new Manager("Jane", "Doe", "Ms", new Department("R&D"))
+
+        assert(m2.isInstanceOf[Manager])
+      }
+
+      it("should not compile for department name for employee") {
+        val m3 = new Employee("John", "Doe", "Mr")
+        assertDoesNotCompile(" m3.department.name = \"R&D\" ")
+      }
+
+    }
+
+    describe("Method overriding tests") {
+      it("should use the overridden method in Manager, even though an Employee reference is used to point to a Manager object") {
+        val manager: Manager = new Manager("Jane", "Doe", "Ms", new Department("R&D"))
+        val mangerAsEmp: Employee = manager // Legal as Manager is also an employee. However,
+                                            // it references a Manager object that was constructed
+                                            // in the previous line
+
+        assert(manager.fullName().equals("Jane Doe, R&D Manager"))
+        assert(mangerAsEmp.fullName().equals("Jane Doe, R&D Manager")) // as it points to Manager object
+      }
+
+    }
 
   }
 }
