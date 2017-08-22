@@ -41,6 +41,18 @@ class Employee(@BeanProperty val firstName: String, val lastName: String, val ti
 
     new Employee(firstName, lastName, title)
   }
+
+  override def equals(obj: scala.Any): Boolean = {
+    if (!obj.isInstanceOf[Employee]) false
+    else {
+      val x = obj.asInstanceOf[Employee]
+      x.firstName.equals(this.firstName) &&
+        x.lastName.equals(this.lastName) &&
+        x.title == this.title // == is same as .equals() in scala
+    }
+  }
+
+
 }
 
 // You could also use default arguments. E.g.: For Title

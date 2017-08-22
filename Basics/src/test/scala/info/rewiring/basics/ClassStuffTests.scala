@@ -107,6 +107,31 @@ class ClassStuffTests extends FunSpec{
         assert(updatedJane.department.name.equals("Toys"))
       }
 
+    }
+
+    describe("equals, hashCode tests") {
+      it("should return true for identical valued Employee objects") {
+        val emp1: Employee = new Employee("A", "B", "Mr")
+        val emp2: Employee = new Employee("A", "B", "Mr")
+
+        assert(emp1.equals(emp2))
+        // == is same as .equals() in scala
+        assert(emp1 == emp2)
+      }
+
+      it("should return false if one of the object is Manager") {
+        val emp: Employee = new Employee("A", "B", "Mr")
+        val man: Manager = new Manager("X", "Y", "Ms", new Department("Toys"))
+
+        assert(emp != man)
+      }
+
+      it("should return true if one of the object is Manager but has same attributes as the employee") {
+        val emp: Employee = new Employee("A", "B", "Mr")
+        val man: Manager = new Manager("A", "B", "Mr", new Department("Toys"))
+
+        assert(emp == man)
+      }
 
     }
 
