@@ -2,9 +2,16 @@ package info.rewiring.basics
 
 import scala.beans.BeanProperty
 
+
+abstract class Person {
+  def firstName: String
+  def lastName: String
+}
+
 // NOTE: val needs to be added. Could be var too, but scala programmers do not like that.
 // @BeanProperty create java style get/setters (accessor/mutator). Helpful for interoperability
-class Employee(@BeanProperty val firstName: String, val lastName: String, val title: String) {
+class Employee(@BeanProperty val firstName: String, val lastName: String, val title: String)
+    extends Person { // This works as a val is in front of firstName and lastName
   // require will be executed as part of the default constructor
   // Don't need to check for null unless this class wil interact with Java classes.
   require(firstName.nonEmpty, "First name cannot be empty")

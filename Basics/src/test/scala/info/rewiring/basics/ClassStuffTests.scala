@@ -170,7 +170,6 @@ class ClassStuffTests extends FunSpec{
       it("should provide equals method OOTB do case classes") {
         val dept1: Department = Department("Games") // NOTE: You do not need *new* for case classes
         val dept2: Department = Department("Games")
-
         assert(dept1 == dept2)
       }
 
@@ -184,12 +183,21 @@ class ClassStuffTests extends FunSpec{
         val dept1: Department = Department("Games") // NOTE: You do not need *new* for case classes
 
         val Department(dept2) = dept1 // dept2 has a the value "Games" (String)
-                                      // Typically, one would need a match stmt to do this.
+        // Typically, one would need a match stmt to do this.
 
         assert(dept2 == "Games")
         assert(dept2.isInstanceOf[String])
+      }
+
+      it("should not be able to access employee method as person val/var") {
+        val emp1: Employee = new Employee("A", "B", "Mr")
+
+        val aPerson: Person = emp1 // Both employee and manager can be used as reference
+
+        assertDoesNotCompile("aPerson.fullName()")
       }
     }
 
   }
 }
+
