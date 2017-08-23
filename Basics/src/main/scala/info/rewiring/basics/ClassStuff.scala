@@ -72,7 +72,26 @@ class Empl(@BeanProperty firstName: String, val lastName: String, val title: Str
 
 }
 
-class Department(val name: String)
+/**
+  * case classes provide by default things like hashcode, equals, toString and copy etc. features
+  *
+  * Also, you do not need to declare constructor args with val to get accessor/mutator
+  *
+  *
+  * NOTE: A case subclass cannot extend a case superclass. All other classes can extend.
+  *
+  * @param name - department name
+  */
+case class Department(name: String) {
+
+  /**
+    * You can also, override the default hashcode, equals, toString implementations
+    *
+    * @return
+    */
+  override def toString: String = s"Department: $name"
+
+}
 
 class Manager(firstName: String, lastName: String, title: String, val department: Department)
     extends Employee(firstName, lastName, title) {
@@ -85,7 +104,7 @@ class Manager(firstName: String, lastName: String, title: String, val department
            lastName: String = this.lastName,
            title: String = this.title): Manager = {
 
-    new Manager(firstName, lastName, title, new Department("Toys"))
+    new Manager(firstName, lastName, title, Department("Toys"))
   }
 
   // Overloaded methods

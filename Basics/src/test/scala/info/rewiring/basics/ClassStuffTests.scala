@@ -71,12 +71,12 @@ class ClassStuffTests extends FunSpec{
 
     describe("Subclassing tests" ) {
       it("should return type of Manager for manager") {
-        val m: Manager = new Manager("Jane", "Doe", "Ms", new Department("R&D"))
+        val m: Manager = new Manager("Jane", "Doe", "Ms", Department("R&D"))
         assert(m.isInstanceOf[Manager])
       }
 
       it("should return type Manager for undeclared type due to type inference") {
-        val m2 = new Manager("Jane", "Doe", "Ms", new Department("R&D"))
+        val m2 = new Manager("Jane", "Doe", "Ms", Department("R&D"))
 
         assert(m2.isInstanceOf[Manager])
       }
@@ -90,7 +90,7 @@ class ClassStuffTests extends FunSpec{
 
     describe("Method overriding tests") {
       it("should use the overridden method in Manager, even though an Employee reference is used to point to a Manager object") {
-        val manager: Manager = new Manager("Jane", "Doe", "Ms", new Department("R&D"))
+        val manager: Manager = new Manager("Jane", "Doe", "Ms", Department("R&D"))
         val mangerAsEmp: Employee = manager // Legal as Manager is also an employee. However,
                                             // it references a Manager object that was constructed
                                             // in the previous line
@@ -100,7 +100,7 @@ class ClassStuffTests extends FunSpec{
       }
 
       it("should return the new title and department as Toys for overloaded copy method") {
-        val jane: Manager = new Manager("Jane", "Doe", "Ms", new Department("R&D"))
+        val jane: Manager = new Manager("Jane", "Doe", "Ms", Department("R&D"))
 
         val updatedJane: Manager = jane.copy(title = "Mrs")
         assert(updatedJane.title.equals("Mrs"))
@@ -121,14 +121,14 @@ class ClassStuffTests extends FunSpec{
 
       it("should return false if one of the object is Manager") {
         val emp: Employee = new Employee("A", "B", "Mr")
-        val man: Manager = new Manager("X", "Y", "Ms", new Department("Toys"))
+        val man: Manager = new Manager("X", "Y", "Ms", Department("Toys"))
 
         assert(emp != man)
       }
 
       it("should return true if one of the object is Manager but has same attributes as the employee") {
         val emp: Employee = new Employee("A", "B", "Mr")
-        val man: Manager = new Manager("A", "B", "Mr", new Department("Toys"))
+        val man: Manager = new Manager("A", "B", "Mr", Department("Toys"))
 
         assert(emp == man)
       }
@@ -158,6 +158,38 @@ class ClassStuffTests extends FunSpec{
       }
     }
 
+
+    describe("Case class tests") {
+
+      it("should be able to use access/mutator methods even though args is not declared with val") {
+        val dept: Department = Department("Games") // NOTE: You do not need *new* for case classes
+
+        assert(dept.name == "Games")
+      }
+
+      it("should provide equals method OOTB do case classes") {
+        val dept1: Department = Department("Games") // NOTE: You do not need *new* for case classes
+        val dept2: Department = Department("Games")
+
+        assert(dept1 == dept2)
+      }
+
+      it("should allow to override default toString impl for case classes") {
+        val dept1: Department = Department("Games") // NOTE: You do not need *new* for case classes
+
+        assert(dept1.toString != "Department(Games)")
+      }
+
+      it("should allow for a new var to use the automatic pattern matching") {
+        val dept1: Department = Department("Games") // NOTE: You do not need *new* for case classes
+
+        val Department(dept2) = dept1 // dept2 has a the value "Games" (String)
+                                      // Typically, one would need a match stmt to do this.
+
+        assert(dept2 == "Games")
+        assert(dept2.isInstanceOf[String])
+      }
+    }
 
   }
 }
