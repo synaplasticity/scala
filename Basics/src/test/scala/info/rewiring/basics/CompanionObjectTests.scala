@@ -1,6 +1,9 @@
 package info.rewiring.basics
 
+import java.time.LocalDate
+
 import org.scalatest.FunSpec
+import info.rewiring.basics.emp.Employee
 
 class CompanionObjectTests extends FunSpec {
 
@@ -16,11 +19,20 @@ class CompanionObjectTests extends FunSpec {
         val remainingbullets = bourne.shoot(500)
 
         assert(remainingbullets == 0)
+        assert(SecretAgents.bullets == 0)
       }
 
 
     }
 
+    describe("Companion obect has access to classes private data tests") {
+      it("should return the correct hire date") {
+        val emp = Employee.create("A", "B", "Programmer")
+
+        assert(emp.getHireDate == LocalDate.now)
+      }
+
+    }
 
   }
 
