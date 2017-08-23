@@ -22,6 +22,13 @@ class ParameterizedClassTests extends FunSpec{
         assert(doubleBox.t.t.isInstanceOf[Float])
       }
 
+      it("should return the correct types for nested parameterized types") {
+        val couple = Couple("Hello", Couple(42.023, 12)) // Couple[String, Couple[Double, Int]]
+
+        assert(couple.first.isInstanceOf[String])
+        assert(couple.second.isInstanceOf[Couple[Double, Int]])
+        assert(couple.second.first.isInstanceOf[Double])
+      }
     }
 
 
