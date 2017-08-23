@@ -29,6 +29,22 @@ class ParameterizedClassTests extends FunSpec{
         assert(couple.second.isInstanceOf[Couple[Double, Int]])
         assert(couple.second.first.isInstanceOf[Double])
       }
+
+      it("should return a Box[Couple] and correct types") {
+        val box: Box[Couple[String, Int]] = Box(Couple("Hello", 42))
+
+        assert(box.t.isInstanceOf[Couple[String, Int]])
+        assert(box.t.first.isInstanceOf[String])
+        assert(box.t.second.isInstanceOf[Int])
+      }
+
+      it("should swap first and second in Couple, both of which are class level types") {
+        val couple: Couple[String, Int] = Couple("Hello", 42)
+        val swappedCouple: Couple[Int, String] = couple.swap
+
+        assert(swappedCouple.first == 42)
+        assert(swappedCouple.second == "Hello")
+      }
     }
 
 

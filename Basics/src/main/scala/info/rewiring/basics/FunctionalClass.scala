@@ -1,3 +1,5 @@
+package info.rewiring.basics
+
 // Will fail, as this cannot be a class, but object.
 // However an object can have both functions and methods.
 
