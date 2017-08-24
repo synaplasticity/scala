@@ -11,4 +11,10 @@ object FunctionTest extends App {
   val decorator = new Decorator("[", "]")
 
   println(apply(decorator.layout, 7))
+
+  // This will work too as an method named *apply* will be invoked
+  // if the Object name is used (both Scala Object and objects created
+  // from classes.
+  // This concept is widely used in the Scala language
+  println(FunctionTest(decorator.layout, 7))
 }

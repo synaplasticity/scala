@@ -9,7 +9,7 @@ class Message extends BaseClass {
 }
 
 trait Loud extends BaseClass {
-  def loudMessage = message.toUpperCase();
+  def loudMessage = message.toUpperCase()
 }
 
 class SomeClass extends Message with Loud
