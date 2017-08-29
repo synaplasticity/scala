@@ -20,6 +20,14 @@ class BasicFunctionTests extends FunSpec {
 
     }
 
+    describe("Using tuples to return more than one value from functions") {
+
+      it("should return the string and it's size in a tuple") {
+        assert(BasicFunctionTests.stringAndSize("Hello") === ("Hello", 5))
+      }
+      
+    }
+
 
   }
 
@@ -29,12 +37,12 @@ object BasicFunctionTests {
 
   // 1 arg
   val basicF1: Function1[Int, Int] = new Function[Int, Int] {
-    def apply(i: Int) = i + 1
+    def apply(i: Int) = i + 1 // APPLY allows us to directly call the function
   }
   val intermediateF1: (Int => Int) = new Function[Int, Int] {
     def apply(i: Int) = i + 1
   }
-  val finalF1: (Int => Int) =  (i: Int) => i + 1
+  val finalF1: (Int => Int) =  (i: Int) => i + 1 // function by default use apply method.
 
   val afterTypeInferenceF1 = (i: Int) => i + 1 // As we know i + 1, will return an Int
 
@@ -55,4 +63,11 @@ object BasicFunctionTests {
   val finalF2: (Int, String) => String = (x: Int, y: String) => y + x
 
   val afterTypeInferenceF2 = (x: Int, y: String) => y + x // We know Int+String is String
+
+  // Using tuples to return more than one value
+
+  def stringAndSize = (x: String) => (x, x.size) // Type inference helps us to get away with the type declaration
+
+
+
 }
