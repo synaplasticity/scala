@@ -68,10 +68,40 @@ class BasicFunctionTests extends FunSpec {
 
         val closure = new Closure(100)
 
-        assert(closure.bar(f) === 300) // NOTE: m is in current scope
+        assert(closure.bar(f) === 300) // NOTE: m is in the caller scope, but f will have access to it
       }
 
     }
+
+    describe("Function with functions tests") {
+      it("should return correct value for different syntatic sugars for func. with func. - Higher order functions") {
+        val x: Int = FunctionWithFunctions.f(2, (m: Int) => m + 1)
+        val y: Int = FunctionWithFunctions.f(2, m => m + 1) // as we know the type of m is Int
+                                                            // from the function def
+        val z: Int = FunctionWithFunctions.f(2, _ + 1) // Can replace the var m with placeholder
+        val a: Int = FunctionWithFunctions.f(2, 1 + _) // As addition is commutative
+
+        import scala.language.postfixOps // required to suppress warning for the trialing +
+        val b: Int = FunctionWithFunctions.f(2, 1+) // As we can ignore the trailing _
+
+        assert(x === y)
+        assert(y === z)
+        assert(z === a)
+        assert(a === b)
+      }
+
+      it("should return a closure - currying") {
+        // One step at a time.
+        val f = FunctionWithFunctions.a(4)
+        assert(f(5) === 9)
+
+        assert(FunctionWithFunctions.a(4)(5) === 9)
+        assert(FunctionWithFunctions.a.apply(4).apply(5) === 9)
+
+      }
+
+    }
+
   }
 
 }
@@ -127,4 +157,25 @@ class Baz(z: Int) {
 
 class Closure(x: Int) {
   def bar (y: Int => Int) = y(x)
+}
+
+object FunctionWithFunctions {
+
+  /**
+    * Higher order function
+    * A function has a function as param (y: Int => Int)
+    */
+  //  val f: (Int, Int => Int) => Int = (x: Int, y: Int => Int) => y(x)
+  val f = (x: Int, y: Int => Int) => y(x)
+
+
+
+  /**
+    * Currying. And this one is also a closure as 2nd function closes over x.
+    * Function returing function
+    *
+    */
+  //  val a: (Int => Int) => (Int => Int) => Int = (x: Int) => (y: Int) => x + y
+  val a = (x: Int) => (y: Int) => x + y
+
 }
