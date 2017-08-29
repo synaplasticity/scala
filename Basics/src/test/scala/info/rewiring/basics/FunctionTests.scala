@@ -39,6 +39,39 @@ class BasicFunctionTests extends FunSpec {
       }
     }
 
+    describe("Converting methods as function") {
+
+      it("should return the same value after converting a def to a function") {
+        val foo = new FooBaz(10)
+        val f = foo.add _ // *partially applied functions* - creates a function f, which invokes foo.add
+
+        assert(foo.add(20) === f(20))
+        assert(foo.add(20) === f.apply(20))
+      }
+
+      it("should return the same value while using a high order function") {
+        val foo = new FooBaz(10)
+        val f = foo.add _ // creates a function f, which invokes foo.add
+        val baz = new Baz(20)
+
+        assert(f(20) === baz.qux(f)) // 20 + 10 from foo
+        assert(f(20) === baz.qux(foo.add _)) // 20 + 10 from foo
+        assert(f(20) === baz.qux(foo.add)) // Can ignore the trailing "_"
+      }
+
+    }
+
+    describe("Closure tests - functions that close around the environment") {
+      it("should return the correct value even though one of the inputs in the caller scope") {
+        val m = 200 // NOTE: This could be VAR, but can have SIDE EFFECTS as m changes.
+        val f = (x: Int) => x + m
+
+        val closure = new Closure(100)
+
+        assert(closure.bar(f) === 300) // NOTE: m is in current scope
+      }
+
+    }
   }
 
 }
@@ -82,4 +115,16 @@ object BasicFunctionTests {
   val addOneF  = (i: Int ) => i + 1
 
   def addOne(i: Int): Int  = i + 1
+}
+
+class FooBaz(x: Int) {
+  def add(y: Int)  = x + y
+}
+
+class Baz(z: Int) {
+  def qux(f: Int => Int) = f(z) // Use the class arg z as param
+}
+
+class Closure(x: Int) {
+  def bar (y: Int => Int) = y(x)
 }
