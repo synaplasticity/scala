@@ -28,6 +28,16 @@ class BasicFunctionTests extends FunSpec {
       
     }
 
+    describe("Functions vs methods tests") {
+
+      it("One could use the apply method to differentiate a function vs method invocation. " +
+        "A function is an object, where as a method is part of a class/object") {
+
+        assert(BasicFunctionTests.addOneF.apply(4) === BasicFunctionTests.addOne(4))
+        assert(BasicFunctionTests.addOneF(4) === BasicFunctionTests.addOne(4)) // They look at the same,
+                                                                      // but the first one is a function
+      }
+    }
 
   }
 
@@ -66,8 +76,10 @@ object BasicFunctionTests {
 
   // Using tuples to return more than one value
 
-  def stringAndSize = (x: String) => (x, x.size) // Type inference helps us to get away with the type declaration
+  val stringAndSize = (x: String) => (x, x.size) // Type inference helps us to get away with the type declaration
 
+  // functions vs methods
+  val addOneF  = (i: Int ) => i + 1
 
-
+  def addOne(i: Int): Int  = i + 1
 }
