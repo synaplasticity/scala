@@ -102,6 +102,30 @@ class BasicFunctionTests extends FunSpec {
 
     }
 
+    describe("Currying tests - taking a set of args and turning them int to returning function") {
+      it("should return curried form of the function") {
+        FunctionWithFunctions.icurried.isInstanceOf[(Int => (Int => Int))]
+      }
+
+      it("should return uncurried form of the curried function") {
+        FunctionWithFunctions.iuncurried.isInstanceOf[((Int, Int) => Int)]
+      }
+
+      it("should be able to create a currying function using a currying method") {
+        val cf = FunctionWithFunctions.currying(5) _
+
+        // since it's curried, it's a cleaner FP way of subsequent invocation
+        assert(cf(10)(25) === 40)
+        assert(cf.apply(10).apply(25) === 40) // for clarity. Method returns a method and then we apply on it
+      }
+
+      it("should return a non currying method, whose invocation then is typical OO method calling") {
+        val nonc = FunctionWithFunctions.nonCurrying(5, _:Int, _:Int) // this is more uglier than currying declaration
+
+        assert(nonc(10, 25) === 40) // more traditional invocation
+      }
+    }
+
   }
 
 }
@@ -172,10 +196,25 @@ object FunctionWithFunctions {
 
   /**
     * Currying. And this one is also a closure as 2nd function closes over x.
-    * Function returing function
+    * Function returning function
     *
     */
   //  val a: (Int => Int) => (Int => Int) => Int = (x: Int) => (y: Int) => x + y
   val a = (x: Int) => (y: Int) => x + y
 
+  /**
+    * CURRYING
+    */
+  //  val h: (Int => Int) => (Int => Int) => Int = (x: Int) => (y: Int) => x + y
+  val h = (x: Int) => (y: Int) => x + y // curried version of i
+  val i = (x: Int, y: Int) => x + y
+  val icurried = i.curried
+  val iuncurried = Function.uncurried(icurried)
+
+  /** Curried methods
+    * Calling nonCurrying partially would look like this - "val f = foo(5, _:Int, _:Int)", which is a bit goofy.
+    * Whereas currying a curried method could be called like this "val g = bar(5) _"
+    */
+  def nonCurrying(x: Int, y: Int, z : Int) = x + y + z
+  def currying(x: Int)(y: Int)(z: Int) = x + y + z // curried method
 }
