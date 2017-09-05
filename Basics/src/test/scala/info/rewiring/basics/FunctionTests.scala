@@ -128,6 +128,31 @@ class BasicFunctionTests extends FunSpec {
       }
     }
 
+    describe("ByName param tests - as it's lazy and allows block of code as arg, excellent for clean up (try etc.") {
+      it("should return a valid value for safe division") {
+        val d = FunctionWithFunctions.safeDivide {
+          val x = 100
+          val y = 20
+
+          x / y
+        }
+
+        assert(d.get === 5)
+      }
+     it("should return none for division by 0") {
+        val d = FunctionWithFunctions.safeDivide {
+          val x = 100
+          val y = 0
+
+          x / y
+        }
+
+        assert(d === None)
+      }
+
+
+    }
+
   }
 
 }
@@ -172,9 +197,9 @@ object BasicFunctionTests {
 
   def addOne(i: Int): Int  = i + 1
 }
-
 class FooBaz(x: Int) {
   def add(y: Int)  = x + y
+
 }
 
 class Baz(z: Int) {
@@ -213,10 +238,51 @@ object FunctionWithFunctions {
   val icurried = i.curried
   val iuncurried = Function.uncurried(icurried)
 
+
   /** Curried parameters - makes partial application of them easier.
     * Calling nonCurrying partially would look like this - "val f = foo(5, _:Int, _:Int)", which is a bit goofy.
     * Whereas currying a curried method could be called like this "val g = bar(5) _"
     */
   def nonCurrying(x: Int, y: Int, z : Int) = x + y + z
+
   def currying(x: Int)(y: Int)(z: Int) = x + y + z // curried method
+
+  /**
+    * ByValue (Eager) - def byValue(x: Int)(y: Int) = { println("By value"); x + y)
+    * Innvocation :
+    * val a = byValue(4) {
+    *           println("In call")
+    *           6
+    *         } // prints "In call" first as it's eager
+    *
+    * byFunction (Lazy but not very clean) - def byFunction(x: Int)(y: ()=>Int) =
+    *                                           { println("By Function"); x + y)
+    * Innvocation :
+    * val b = byFunction(4) ( () => {
+    *                                 println("In call")
+    *                                 6
+    *                                 } ) // prints "In function" so lazy
+    *                                               // but the calling code is not clean
+    *
+    * and byName (Lazy and clean to call. Can send block of code)
+    *         - def byName(x: Int)(f: => Int) = { println("By name", x + y}
+    * Innovation:
+    * val c = byName(4) {
+    *           println("In call")
+    *           6
+    *         }
+    *
+    *
+    */
+  def safeDivide(f: => Int): Option[Int] = {
+    try {
+      Some(f)
+    } catch {
+      case ae: ArithmeticException => None
+    }
+  }
+
+
+
+
 }
