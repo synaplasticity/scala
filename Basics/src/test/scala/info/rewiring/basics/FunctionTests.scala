@@ -110,7 +110,9 @@ class BasicFunctionTests extends FunSpec {
       it("should return uncurried form of the curried function") {
         FunctionWithFunctions.iuncurried.isInstanceOf[((Int, Int) => Int)]
       }
+    }
 
+    describe("Curried parameters - makes partial application of them easier.") {
       it("should be able to create a currying function using a currying method") {
         val cf = FunctionWithFunctions.currying(5) _
 
@@ -211,7 +213,7 @@ object FunctionWithFunctions {
   val icurried = i.curried
   val iuncurried = Function.uncurried(icurried)
 
-  /** Curried methods
+  /** Curried parameters - makes partial application of them easier.
     * Calling nonCurrying partially would look like this - "val f = foo(5, _:Int, _:Int)", which is a bit goofy.
     * Whereas currying a curried method could be called like this "val g = bar(5) _"
     */
