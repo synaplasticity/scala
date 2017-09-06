@@ -64,6 +64,34 @@ class ScalaCollectionTests extends FunSpec {
 
     }
 
+    describe("Range tests") {
+      it("should return a string of numbers bound by the upper number - inclusive") {
+        val r1 = (1 to 4)
+        assert( r1.toList === List(1,2,3,4) )
+      }
+
+      it("should return a string of numbers bound by the upper number - exclusive") {
+        val r1 = (1 until 4)
+        assert( r1.toList === List(1,2,3) )
+      }
+
+      it("should support methods that other collection like list do") {
+        val r1 = (1 to 4)
+
+        assert(r1.head === 1)
+        assert(r1.tail === List(2, 3, 4))
+        assert(r1.init === List(1, 2, 3))
+        assert(r1.min === 1)
+      }
+
+      it("should be able to step the range by a number") {
+        val r2 = (1 to 10 by 3)
+
+        assert(r2.toList === List(1, 4, 7, 10))
+      }
+
+    }
+
   }
 
 
