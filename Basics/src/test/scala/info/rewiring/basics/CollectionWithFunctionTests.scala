@@ -55,11 +55,35 @@ class CollectionWithFunctionTests extends FunSpec {
         assert( tmap.head === (Symbol("Team A"), 4) ) // On println, shows as ('Team A, 4)
       }
 
-
     }
 
+    describe("Filter test suite") {
+      it("should be able to find even number using Filter on a collection") {
+        val range = 1 to 10
+        val evens = range.filter(x => x %2 == 0) // even numbers
+        val odds = range.filterNot(_ %2 == 0) // odd numbers
+
+        assert(evens !== odds)
+      }
+
+      it("should be able to find letter with vowels > 1") {
+        val colors = Set("Red", "Blue", "Green", "Purple", "Orange")
+        val wordsWithMoreThanOneVowel = colors.filter(w => CollectionWithFunctionTests.filterVowels(w).length > 1)
+
+        assert(wordsWithMoreThanOneVowel === Set("Blue", "Green", "Purple", "Orange"))
+      }
+
+    }
 
   }
 
 
 }
+
+object CollectionWithFunctionTests {
+
+  def filterVowels(string: String): String = {
+    string.toLowerCase.filter(x => Set('a', 'e', 'i', 'o', 'u').contains(x))
+  }
+}
+
