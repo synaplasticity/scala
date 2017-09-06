@@ -270,13 +270,16 @@ object FunctionWithFunctions {
     * val c = byName(4) {
     *           println("In call")
     *           6
-    *         }
-    *
+    *         } // prints "By name" first as it's lazy and the calling code is clean
+    * ** by-name param evaluates only when given **
+    * More : https://tpolecat.github.io/2014/06/26/call-by-name.html
     *
     */
   def safeDivide(f: => Int): Option[Int] = {
     try {
+
       Some(f)
+
     } catch {
       case ae: ArithmeticException => None
     }
