@@ -191,6 +191,31 @@ class CollectionWithFunctionTests extends FunSpec {
 
     }
 
+    describe("A simple problem to be solved functionally") {
+
+      it("should print the grocery list by number on it's own line") {
+        /*
+            Given : List("Apples", "Milk", "Eggs")
+            Output : 1. Apples
+                     2. Milk
+                     3. Eggs
+         */
+
+        val groceries = List("Apples", "Milk", "Eggs")
+
+        val groceryList =
+          groceries
+          .zipWithIndex // creates List((Apples,0), (Milk,1), (Eggs,2))
+            .map(t => (t._1, t._2 + 1)) // Add to index, so we start with 1
+              .map(t => t.swap) // returns  List((1,Apples), (2,Milk), (3,Eggs))
+                .map(t => s"${t._1}. ${t._2}") // returns List(1. Apples, 2. Milk, 3. Eggs)
+                  .mkString("\n") // on it\'s own line
+
+
+        assert(groceryList === "1. Apples\n2. Milk\n3. Eggs")
+
+      }
+    }
 
 
   }
