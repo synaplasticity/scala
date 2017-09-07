@@ -79,7 +79,7 @@ class CollectionWithFunctionTests extends FunSpec {
       "monadic as they support map, flatMap, filter, foreach**) test suite") {
 
       it("should return the same using for/yield and map") {
-        val forYield = for(i <- 1 to 10) yield ( i + 1)
+        val forYield = for(i <- 1 to 10) yield i + 1
         val forMap = (1 to 10)
                       .map(i => i + 1)
 
@@ -130,7 +130,7 @@ class CollectionWithFunctionTests extends FunSpec {
         // total = 0; next = 1
         // total = 1; next = 2
         // total = 2; next = 3
-        val foldLeft = (1 to 10)
+        val foldLeft = (1 to 10) // NOTE: This could be achieved by using .sum
                         .foldLeft(0)( (total: Int, next: Int) => total + next)
                       //.foldLeft(0)( _+_) - shortcut "_" replaces vars as we have seen before
         val reduce = (1 to 10)
@@ -157,6 +157,16 @@ class CollectionWithFunctionTests extends FunSpec {
 
     }
 
+    describe("zip test suite") {
+      it("should *intertwine* elements of two collections") {
+        // E.g.: List(1, 2) zip List(4, 5) = ( (1,4), (2, 5) )
+        assert( (List(1, 2) zip List(4, 5)) === List((1,4), (2, 5)) )
+
+        // If they are not the same size, thn the the shorter list number of elements will be created
+      }
+
+
+    }
   }
 
 
