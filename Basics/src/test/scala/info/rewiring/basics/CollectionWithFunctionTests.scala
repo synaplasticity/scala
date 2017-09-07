@@ -122,6 +122,41 @@ class CollectionWithFunctionTests extends FunSpec {
 
     }
 
+    describe("Fold and reduce test suite") {
+
+      it("should return same value using foldLeft with a seed and reduce function") {
+
+        // fold/reduceLeft
+        // total = 0; next = 1
+        // total = 1; next = 2
+        // total = 2; next = 3
+        val foldLeft = (1 to 10)
+                        .foldLeft(0)( (total: Int, next: Int) => total + next)
+                      //.foldLeft(0)( _+_) - shortcut "_" replaces vars as we have seen before
+        val reduce = (1 to 10)
+                          .reduceLeft( (total: Int, next: Int) => total + next )
+
+        assert(foldLeft === reduce)
+
+      }
+
+      it("should return same value using foldRight with a seed and reduce function") {
+
+        // fold/reduceRight
+        // total = 0; next = 10 --- starts from the right most value of the collection
+        // total = 10; next = 9
+        // total = 19; next = 8
+        val foldRight = (1 to 10)
+          .foldRight(0)( (next: Int, total: Int) => total + next) // next comes first in foldRight
+        val reduce = (1 to 10)
+          .reduceLeft( (next: Int, total: Int) => total + next )
+
+        assert(foldRight === reduce)
+
+      }
+
+    }
+
   }
 
 
