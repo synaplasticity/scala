@@ -167,6 +167,32 @@ class CollectionWithFunctionTests extends FunSpec {
 
 
     }
+
+    describe("Some cool methods test suite") {
+
+      it("should partition a list based on a criteria - partition") {
+        assert(List(1, 2, 3, 4).partition(i => i%2 ==0) === (List(2, 4), List(1, 3)))
+      }
+
+
+      it("should return a map with the first letter of the word of list element - groupBy") {
+        val colors = List("Red", "Orange", "Green")
+        val expectedResult = Map('R' -> List("Red"), 'O' -> List("Orange"), 'G' -> List("Green"))
+
+        assert(colors.groupBy(x => x.head) === expectedResult)
+      }
+
+      it("should return a collection based on location or criteria - take method") {
+        assert( ( 1 to 100).take(5) === (1 to 5))
+        assert( ( 1 to 100).takeRight(5) === (96 to 100))
+        assert( ( 1 to 100).takeWhile(i => i < 3) === (1 to 2))
+
+      }
+
+    }
+
+
+
   }
 
 
