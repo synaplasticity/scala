@@ -75,6 +75,53 @@ class CollectionWithFunctionTests extends FunSpec {
 
     }
 
+    describe("For comprehension (preferred over for loop - **Also most of the Scala collections are " +
+      "monadic as they support map, flatMap, filter, foreach**) test suite") {
+
+      it("should return the same using for/yield and map") {
+        val forYield = for(i <- 1 to 10) yield ( i + 1)
+        val forMap = (1 to 10)
+                      .map(i => i + 1)
+
+        assert (forYield == forMap)
+      }
+
+      it("should be same value if we use for/yield and flatMap for 2 dimensional loops") {
+        val forYieldList = for( i <- 1 to 4; j <- 5 to 8) yield (i, j)
+        // following will return a list of list.
+        // e.g.: ( List((1, 2), (1, 3), (1, 4), (1, 5)), List((2, 1), (2, 2) etc.
+        val forMapListofList = List(1, 2, 3, 4)
+                                .map(i => List(5, 6, 7, 8)
+                                  .map(j => (i, j)))
+        // so lets flatten it
+        val forMapList = List(1, 2, 3, 4)
+                          .flatMap(i => List(5, 6, 7, 8)
+                            .map(j => (i, j)))
+
+        assert(forYieldList === forMapList)
+
+      }
+
+      it("should be equivalent if we use for/yield and forMap with filters") {
+        val forYield = for(i <- 1 to 4
+                           if (i % 2 == 0);
+                           j <- 5 to 8) yield (i, j)
+        // Filter is inefficient
+        val forMapFilter = List(1,2,3,4)
+                            .filter(i => i % 2 == 0)
+                            .flatMap(i => List(5,6,7,8)
+                              .map(j => (i,j)))
+        // So we will use *withFiter* which is lazy, therefore more efficient
+        val forMapWithFilter = List(1,2,3,4)
+                                .withFilter(i => i % 2 == 0)
+                                .flatMap(i => List(5,6,7,8)
+                                  .map(j => (i,j)))
+
+        assert(forYield === forMapWithFilter)
+      }
+
+    }
+
   }
 
 
