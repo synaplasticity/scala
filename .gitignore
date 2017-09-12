@@ -6,4 +6,9 @@ Basics/.idea/
 Basics/project/target/
 dmasrh-koans/**/*.jar
 dmasrh-koans/**/.hg*
-
+dmasrh-koans/.idea/
+dmasrh-koans/ivyrepo/
+dmasrh-koans/project/project/**
+dmasrh-koans/project/target/**
+dmasrh-koans/sbtboot/**
+dmasrh-koans/target/**
