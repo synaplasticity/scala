@@ -4,3 +4,6 @@ Basics/**/*.log
 Basics/target/
 Basics/.idea/
 Basics/project/target/
+dmasrh-koans/**/*.jar
+dmasrh-koans/**/.hg*
+
